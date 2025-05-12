@@ -1,0 +1,39 @@
+stages:
+  prepare_dataset:
+    cmd: python stages/prepare_dataset.py
+    deps:
+    - stages/prepare_dataset.py
+    - config.yaml
+    outs:
+    - data/energy_cleaned.csv
+  data_split:
+    cmd: python stages/data_split.py
+    deps:
+    - stages/data_split.py
+    - config.yaml
+    - data/energy_cleaned.csv
+    outs:
+    - data/train.csv
+    - data/test.csv
+  train:
+    cmd: python stages/train.py
+    deps:
+    - config.yaml
+    - stages/train.py
+    - data/train.csv
+    outs:
+    - models/energy_model.joblib
+    - models/scaler.joblib
+    - models/power_transformer.joblib
+    - models/best_params.json
+    - metrics.json
+  test_model:
+    cmd: python stages/test_model.py
+    deps:
+    - stages/test_model.py
+    - data/test.csv
+    - models/energy_model.joblib
+    - models/scaler.joblib
+    - models/power_transformer.joblib
+    outs:
+    - metrics.json
