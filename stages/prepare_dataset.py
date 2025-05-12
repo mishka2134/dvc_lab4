@@ -25,9 +25,9 @@ def clear_data(df, config):
 
 
 if __name__ == "__main__":
-    with open("../config.yaml") as f:
+    with open("./config.yaml") as f:
         config = yaml.safe_load(f)
 
     data = download_data()
     cleaned_data = clear_data(data, config)
-    cleaned_data.to_csv("../data/energy_cleaned.csv", index=False)
+    cleaned_data.to_csv("./data/energy_cleaned.csv", index=False)

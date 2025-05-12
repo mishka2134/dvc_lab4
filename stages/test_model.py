@@ -5,10 +5,10 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import json
 
 if __name__ == "__main__":
-    test_df = pd.read_csv("../data/test.csv")
-    model = joblib.load("../models/energy_model.joblib")
-    scaler = joblib.load("../models/scaler.joblib")
-    power_trans = joblib.load("../models/power_transformer.joblib")
+    test_df = pd.read_csv("./data/test.csv")
+    model = joblib.load("./models/energy_model.joblib")
+    scaler = joblib.load("./models/scaler.joblib")
+    power_trans = joblib.load("./models/power_transformer.joblib")
 
     X_test = test_df.drop(columns=['Energy Consumption'])
     y_test = test_df['Energy Consumption']
@@ -23,5 +23,5 @@ if __name__ == "__main__":
         'test_r2': r2_score(y_test, y_pred_inv)
     }
 
-    with open("../metrics.json", "w") as f:
+    with open("./metrics.json", "w") as f:
         json.dump(metrics, f)

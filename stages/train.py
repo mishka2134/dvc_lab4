@@ -10,11 +10,11 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 
 if __name__ == "__main__":
-    with open("../config.yaml") as f:
+    with open("./config.yaml") as f:
         config = yaml.safe_load(f)
 
-    os.makedirs("../models", exist_ok=True)
-    train_df = pd.read_csv("../data/train.csv")
+    os.makedirs("./models", exist_ok=True)
+    train_df = pd.read_csv("./data/train.csv")
 
     X_train = train_df.drop(columns=[config['target']])
     y_train = train_df[config['target']]
@@ -32,12 +32,12 @@ if __name__ == "__main__":
     best_model = clf.best_estimator_
 
     # Сохранение артефактов
-    joblib.dump(best_model, "../models/energy_model.joblib")
-    joblib.dump(scaler, "../models/scaler.joblib")
-    joblib.dump(power_trans, "../models/power_transformer.joblib")
+    joblib.dump(best_model, "./models/energy_model.joblib")
+    joblib.dump(scaler, "./models/scaler.joblib")
+    joblib.dump(power_trans, "./models/power_transformer.joblib")
 
     # Сохранение параметров
-    with open("../models/best_params.json", "w") as f:
+    with open("./models/best_params.json", "w") as f:
         json.dump(clf.best_params_, f)
 
     # Оценка на тренировочных данных
@@ -50,5 +50,5 @@ if __name__ == "__main__":
         'train_r2': r2_score(y_train, y_pred_inv)
     }
 
-    with open("../metrics.json", "w") as f:
+    with open("./metrics.json", "w") as f:
         json.dump(metrics, f)

@@ -1,0 +1,102 @@
+schema: '2.0'
+stages:
+  prepare_dataset:
+    cmd: python3 stages/prepare_dataset.py
+    deps:
+    - path: config.yaml
+      hash: md5
+      md5: 08729b2fbbb3fb3d5a84b03226b1e8b0
+      size: 449
+    - path: stages/prepare_dataset.py
+      hash: md5
+      md5: 8aabb805d9a57f55aeb154644e866e30
+      size: 1130
+    outs:
+    - path: data/energy_cleaned.csv
+      hash: md5
+      md5: 10cfcb723dae0577da41abe4fdeeed0b
+      size: 33459
+  data_split:
+    cmd: python3 stages/data_split.py
+    deps:
+    - path: config.yaml
+      hash: md5
+      md5: 08729b2fbbb3fb3d5a84b03226b1e8b0
+      size: 449
+    - path: data/energy_cleaned.csv
+      hash: md5
+      md5: 10cfcb723dae0577da41abe4fdeeed0b
+      size: 33459
+    - path: stages/data_split.py
+      hash: md5
+      md5: 51c5c7efb27b21988c74d94d10ac833a
+      size: 672
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: de89e999f12c93d9974d0badf80a6ffb
+      size: 10127
+    - path: data/train.csv
+      hash: md5
+      md5: 45df21053824bc419969a026706ae282
+      size: 23448
+  train:
+    cmd: python3 stages/train.py
+    deps:
+    - path: config.yaml
+      hash: md5
+      md5: 08729b2fbbb3fb3d5a84b03226b1e8b0
+      size: 449
+    - path: data/train.csv
+      hash: md5
+      md5: 45df21053824bc419969a026706ae282
+      size: 23448
+    - path: stages/train.py
+      hash: md5
+      md5: 6f96b8844f0f387be46ac538fa68491b
+      size: 1972
+    outs:
+    - path: models/best_params.json
+      hash: md5
+      md5: 9e7f49cfa54f7aea04385edca32d8ebc
+      size: 101
+    - path: models/energy_model.joblib
+      hash: md5
+      md5: 59d9a3fc9a830a93a37c4e53c4fabce0
+      size: 866
+    - path: models/power_transformer.joblib
+      hash: md5
+      md5: cf6927e781c6b855bc5601a761e333a1
+      size: 843
+    - path: models/scaler.joblib
+      hash: md5
+      md5: 954b6238a87b67080a536db0058b326b
+      size: 1197
+  test_model:
+    cmd: python3 stages/test_model.py
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: de89e999f12c93d9974d0badf80a6ffb
+      size: 10127
+    - path: models/energy_model.joblib
+      hash: md5
+      md5: 59d9a3fc9a830a93a37c4e53c4fabce0
+      size: 866
+    - path: models/power_transformer.joblib
+      hash: md5
+      md5: cf6927e781c6b855bc5601a761e333a1
+      size: 843
+    - path: models/scaler.joblib
+      hash: md5
+      md5: 954b6238a87b67080a536db0058b326b
+      size: 1197
+    - path: stages/test_model.py
+      hash: md5
+      md5: 846708fd6d9aeade9ff80e30eb489fe6
+      size: 916
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: c4590a2760981db9c8a75a281a83c988
+      size: 94
